@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../IPOO/.idea/IPOO.iml" filepath="$PROJECT_DIR$/../IPOO/.idea/IPOO.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/TPs IPOO.iml" filepath="$PROJECT_DIR$/.idea/TPs IPOO.iml" />
     </modules>
   </component>
