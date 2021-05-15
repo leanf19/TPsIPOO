@@ -1,10 +1,11 @@
 <?php
 include "FuncionTPE3.php";
 
-class TeatroTP3
+class TeatroTPE3
 {
     private $nombre;
     private $direccion;
+    private $cantFunciones;
     private $funciones;
 
     public function __construct($nom,$dir,$cant)
@@ -52,6 +53,12 @@ class TeatroTP3
     {
         $this->direccion = $cant;
     }
+    
+    public function setFunciones(array $func): void
+    {
+        $this->funciones = $func;
+    }
+
 
     public function agregarFunciones($indice,$nom,$hora,$tiempo,$costo)
     {
@@ -59,7 +66,7 @@ class TeatroTP3
         $this->funciones[$indice] = $auxFuncion;
     }
 
-    public function setFunciones($opcion,$indice,$valor)
+    /* public function setFunciones($opcion,$indice,$valor)
     {
         $aux = $this->funciones[$indice];
         switch($opcion) {
@@ -154,7 +161,7 @@ class TeatroTP3
         return $disponible;
     }
 
-
+*/
 
     public function __toString()
     {

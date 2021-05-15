@@ -7,8 +7,8 @@ class FuncionTeatro extends FuncionTPE3
     /**
      * FuncionTeatro constructor.
      */
-    public function __construct($nom, $hora, $tiempo, $costo)
-    { parent:: __construct($nom, $hora, $tiempo, $costo);
+    public function __construct($nomb, $hora, $tiempo, $costo)
+    { parent:: __construct($nomb, $hora, $tiempo, $costo);
 
     }
 

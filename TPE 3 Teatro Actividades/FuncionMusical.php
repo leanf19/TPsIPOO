@@ -43,10 +43,10 @@ class FuncionMusical extends FuncionTPE3
 
     public function __toString(): string
     {
-        $salida = parent::__toString();
-        $salida.= "Director:{$this->getDirector()}
+        $cadena = parent::__toString();
+        $cadena.= "Director:{$this->getDirector()}
                  \nPersonas en Escena:{$this->getCantPersonas()}";
-        return $salida;
+        return $cadena;
 
     }
 

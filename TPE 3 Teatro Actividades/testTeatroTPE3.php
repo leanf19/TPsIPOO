@@ -9,7 +9,7 @@ include "TeatroTPE3.php";
 
 //Crea una instancia de la clase teatro con un nombre y direccion genericos
 $cantFunciones = 0;
-$unTeatro = new TeatroTP3("Lido", "Corrientes 1885", 3);
+$unTeatro = new TeatroTPE3("Lido", "Corrientes 1885", 3);
 
 
 do {

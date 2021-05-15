@@ -40,10 +40,10 @@ class FuncionCine extends FuncionTPE3
 
     public function __toString(): string
     {
-        $salida = parent::__toString();
-        $salida.= "Genero:{$this->getGenero()}
+        $cadena = parent::__toString();
+        $cadena.= "Genero:{$this->getGenero()}
                  \nPais:{$this->getPais()}";
-        return $salida;
+        return $cadena;
 
     }
 
