@@ -3,13 +3,14 @@
 //Leandro Fuentes FAI-465
 include "TeatroTPE3.php";
 
+
 /******************************************/
 /************** PROGRAMA PRINCIPAL *********/
 /******************************************/
 
 //Crea una instancia de la clase teatro con un nombre y direccion genericos
 $cantFunciones = 0;
-$unTeatro = new TeatroTPE3("Lido", "Corrientes 1885", 3);
+$unTeatro = new TeatroTPE3("Lido", "Corrientes 1885", 90);
 
 
 do {
@@ -18,9 +19,10 @@ do {
     $opcion = seleccionarOpcion();
 
     //Se ejecuta el numero de opcion elegido por el usuario
-    switch ($opcion) {
+    switch ($opcion)
+    {
         case 1: //Mostrar la informacion del teatro
-            echo "\n TeatroTP3: " . $unTeatro->getNombre() . " ";
+            echo "\n Teatro: " . $unTeatro->getNombre() . " ";
             echo "\n Direccion: " . $unTeatro->getDireccion() . "\n ";
             break;
 
@@ -44,77 +46,107 @@ do {
 
         case 5: //Ver funciones disponibles
             echo "\n ¡Estas son las funciones disponibles! \n";
-            print_r($unTeatro->getFunciones());
+            echo $unTeatro->__toString();
             break;
 
         case 6: //Agregar nueva funcion
-            if ($cantFunciones < $unTeatro->getCantFunciones()) {
-                echo "\n Ingrese el nombre de la nueva funcion ";
-                $nomFuncion = trim(fgets(STDIN));
-                echo "\n Ingrese la hora de la funcion en formato 24hrs (hh:mm) : ";
-                $horaIni = trim(fgets(STDIN));
-                echo "\n Ingrese la duracion de la funcion en minutos: ";
-                $tiempo = trim(fgets(STDIN));
-                echo "\n Ingrese el precio de la entrada ";
-                $precio = trim(fgets(STDIN));
+            echo "\n Ingrese el tipo de funcion (Cine,Teatro,Musical)";
+            $tipo = strtolower(trim(fgets(STDIN)));
+            echo "\n Ingrese el nombre de la nueva funcion ";
+            $nomFuncion = trim(fgets(STDIN));
+            echo "\n Ingrese la hora de la funcion en formato 24hrs (hh:mm) : ";
+            $horaIni = trim(fgets(STDIN));
+            echo "\n Ingrese la duracion de la funcion en minutos: ";
+            $tiempo = trim(fgets(STDIN));
+            echo "\n Ingrese el precio de la entrada ";
+            $precio = trim(fgets(STDIN));
 
-                $unTeatro->agregarFunciones($cantFunciones, $nomFuncion, $horaIni, $tiempo, $precio);
-                $cantFunciones++;
-            } else {
-                //Solo deja agregar hasta 4 funciones, luego solo pueden modificarse
-                echo "\n Se supero el numero maximo de funciones diarias \n";
+            switch ($tipo)
+            {
+                case "teatro":
+                        $unaFuncion = new FuncionTeatro($nomFuncion, $horaIni, $tiempo, $precio);
+                        $unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
+                        $cantFunciones++;
+                    break;
+                case "cine":
+                         echo "\n Ingrese el genero de la pelicula ";
+                        $igenero = trim(fgets(STDIN));
+                        echo "\n Ingrese el pais de la pelicula";
+                        $ipais = trim(fgets(STDIN));
+                        $unaFuncion = new FuncionCine($nomFuncion, $horaIni, $tiempo, $precio, $igenero, $ipais);
+                        $unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
+                        $cantFunciones++;
+                    break;
+                    case "musical":
+                        echo "\n Ingrese el nombre del director ";
+                        $idirector = trim(fgets(STDIN));
+                        echo "\n Ingrese la cantidad de personas en escena ";
+                        $icantPersonas = trim(fgets(STDIN));
+                        $unaFuncion = new FuncionMusical($nomFuncion, $horaIni, $tiempo, $precio, $idirector, $icantPersonas);
+                        $unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
+                        $cantFunciones++;
+                    break;
+
+
             }
-            break;
+        break;
 
         case 7: //Modificar FuncionTp3
-            if (count($unTeatro->getFunciones()) > 0) {
+            if (count($unTeatro->getFunciones()) > 0)
+            {
                 $bucle = true;
                 echo "\n Estas son las funciones disponibles, seleccione una a modificar[0-" . ($cantFunciones - 1) . "]\n";
-                print_r($unTeatro->getFunciones());
-
+                //print_r($unTeatro->getFunciones());
+                echo $unTeatro->__toString();
 
                 $nroFuncion = trim(fgets(STDIN));
-                if ($nroFuncion <= $cantFunciones) {
-                    do {
+                if ($nroFuncion <= $cantFunciones)
+                {
+                    do
+                    {
                         $seleccion = menuFuncion();
-                        switch ($seleccion) {
+                        switch ($seleccion)
+                        {
 
                             case 1:
                                 echo "\n Ingrese el nuevo nombre de la funcion: ";
                                 $nomFuncion = trim(fgets(STDIN));
-                                $unTeatro->setFunciones($seleccion, $nroFuncion, $nomFuncion);
+                                $unTeatro->modificarFunciones($seleccion, $nroFuncion, $nomFuncion);
                                 break;
 
                             case 2:
                                 echo "\n Ingrese la hora de la funcion en formato 24hrs (hh:mm) : ";
                                 $horaIni = trim(fgets(STDIN));
-                                $unTeatro->setFunciones($seleccion, $nroFuncion, $horaIni);
+                                $unTeatro->modificarFunciones($seleccion, $nroFuncion, $horaIni);
                                 break;
 
                             case 3:
                                 echo "\n Ingrese la duracion de la funcion en minutos: ";
                                 $tiempo = trim(fgets(STDIN));
-                                $unTeatro->setFunciones($seleccion, $nroFuncion, $tiempo);
+                                $unTeatro->modificarFunciones($seleccion, $nroFuncion, $tiempo);
                                 break;
 
                             case 4:
                                 echo "\n Ingrese el precio de la entrada: ";
                                 $precio = trim(fgets(STDIN));
-                                $unTeatro->setFunciones($seleccion, $nroFuncion, $precio);
+                                $unTeatro->modificarFunciones($seleccion, $nroFuncion, $precio);
                                 break;
                         }
 
                     } while ($seleccion != 5);
 
-                } else {
+                } else
+                    {
                     //Solo deja que el usuario acceda a las funciones preexistentes sin posibilidad de modificar un indice vacio
                     echo "\n Error, ingrese una de las funciones disponibles:[0-" . ($cantFunciones - 1) . "] \n";
+                    }
+
+
+            } else
+
+                {
+                    echo "\n Aun no hay funciones programadas para modificar \n";
                 }
-
-
-            } else {
-                echo "\n Aun no hay funciones programadas para modificar \n";
-            }
             break;
     }
 } while ($opcion != 8);

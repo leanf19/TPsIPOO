@@ -69,4 +69,8 @@ class FuncionTPE3
         return $cadena;
     }
 
+    public function calcularCosto()
+    {
+        return $this->getPrecio();
+    }
 }

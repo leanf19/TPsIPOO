@@ -1,5 +1,5 @@
 <?php
-include 'FuncionTPE3.php';
+include "FuncionTPE3.php";
 
 class FuncionTeatro extends FuncionTPE3
 {
@@ -16,6 +16,9 @@ class FuncionTeatro extends FuncionTPE3
     {
         return parent::__toString();
     }
-
+    public function calcularCosto()
+    {
+        return parent::calcularCosto() * 1.45;
+    }
 
 }

@@ -1,5 +1,5 @@
 <?php
-include 'FuncionTPE3.php';
+include "FuncionTPE3.php";
 
 
 class FuncionCine extends FuncionTPE3
@@ -46,5 +46,8 @@ class FuncionCine extends FuncionTPE3
         return $cadena;
 
     }
-
+    public function calcularCosto()
+    {
+        return parent::calcularCosto() * 1.12;
+    }
 }

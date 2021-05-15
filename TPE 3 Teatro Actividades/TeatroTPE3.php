@@ -1,5 +1,8 @@
 <?php
-include "FuncionTPE3.php";
+
+include "FuncionTeatro.php";
+include "FuncionMusical.php";
+include "FuncionCine.php";
 
 class TeatroTPE3
 {
@@ -53,20 +56,32 @@ class TeatroTPE3
     {
         $this->direccion = $cant;
     }
-    
+
+
     public function setFunciones(array $func): void
     {
         $this->funciones = $func;
     }
 
-
-    public function agregarFunciones($indice,$nom,$hora,$tiempo,$costo)
+   /* public function agregarFunciones($tipo,$nom,$hora,$tiempo,$costo)
     {
         $auxFuncion = new FuncionTPE3($nom,$hora,$tiempo,$costo);
-        $this->funciones[$indice] = $auxFuncion;
+        $this->funciones[$tipo][] = $auxFuncion;
     }
-
-    /* public function setFunciones($opcion,$indice,$valor)
+*/
+    public function agregarFunciones($unaFuncion,$index)
+    {
+        $exito = false;
+        $horaFuncion = $unaFuncion->getHoraInicio();
+        $duracionFuncion = $unaFuncion->getDuracion();
+        if ($this->comprobarHorario($index,$horaFuncion, $duracionFuncion)) {
+            $tempFunciones = $this->getFunciones();
+            $tempFunciones[] = $unaFuncion;
+            $exito = true;
+        }
+        return $exito;
+    }
+    public function modificarFunciones($opcion, $indice, $valor)
     {
         $aux = $this->funciones[$indice];
         switch($opcion) {
@@ -161,10 +176,40 @@ class TeatroTPE3
         return $disponible;
     }
 
-*/
+
 
     public function __toString()
     {
-        return "(" . $this->getNombre().",".$this->getDireccion().",".print_r($this->getFunciones()).")";
+        $salida = "Nombre teatro: {$this->getNombre()}
+                   \nDireccion: {$this->getDireccion()}
+                    \nFunciones disponibles:\n";
+        //a continuacion se muestra cada funcion del arreglo
+        $salida .= $this->concatenarFunciones();
+
+        return $salida;
     }
+    //Recorre tod* el arreglo, concatena y devuelve al __toString
+    public function concatenarFunciones()
+    {
+        $salida = "";
+        foreach ($this->funciones as $funcion) {
+            $salida .= "-----------------------------------------------\n";
+            $salida .= "Nombre: {$funcion->getNombre()}
+                        \nHorario:{$funcion->getHoraInicio()}
+                        \nDuracion: {$funcion->getDuracion()}
+                         \nPrecio:{$funcion->getPrecio()}\n";
+            $salida .= "-----------------------------------------------\n";
+        }
+        return $salida;
+    }
+
+    public function darCosto()
+    {
+        $costo = 0;
+        foreach ($this->getFunciones() as $funcion) {
+            $costo += $funcion->calcularCosto();
+        }
+        return $costo;
+    }
+
 }
