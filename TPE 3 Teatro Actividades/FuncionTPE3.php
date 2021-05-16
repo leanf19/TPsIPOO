@@ -61,10 +61,7 @@ class FuncionTPE3
     }
     public function __toString(): string
     {
-        $cadena = "\nNombre de la funcion: {$this->getNombre()}
-        \n Hora de inicio: {$this->getHoraInicio()}
-        \n Duracion: {$this->getDuracion()}
-        \nPrecio: {$this->getPrecio()}\n";
+        $cadena = "\nNombre de la funcion: {$this->getNombre()}\n Hora de inicio: {$this->getHoraInicio()}\n Duracion: {$this->getDuracion()} \nPrecio: {$this->getPrecio()}\n";
 
         return $cadena;
     }

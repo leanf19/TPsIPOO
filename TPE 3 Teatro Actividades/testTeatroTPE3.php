@@ -50,53 +50,61 @@ do {
             break;
 
         case 6: //Agregar nueva funcion
-            echo "\n Ingrese el tipo de funcion (Cine,Teatro,Musical)";
-            $tipo = strtolower(trim(fgets(STDIN)));
-            echo "\n Ingrese el nombre de la nueva funcion ";
+            do {
+                echo "\n Ingrese el tipo de funcion (Cine,Teatro,Musical): ";
+                $tipo = strtolower(trim(fgets(STDIN)));
+            } while($tipo != "cine" && $tipo != "musical" && $tipo != "teatro");
+            echo "\n Ingrese el nombre de la nueva funcion: ";
             $nomFuncion = trim(fgets(STDIN));
-            echo "\n Ingrese la hora de la funcion en formato 24hrs (hh:mm) : ";
+            echo "\n Ingrese la hora de la funcion en formato 24hrs (hh:mm): ";
             $horaIni = trim(fgets(STDIN));
             echo "\n Ingrese la duracion de la funcion en minutos: ";
             $tiempo = trim(fgets(STDIN));
-            echo "\n Ingrese el precio de la entrada ";
+            echo "\n Ingrese el precio de la entrada: ";
             $precio = trim(fgets(STDIN));
 
+            $exito = false;
+
+            //segun el tipo de actividad es el case al que se accede para proceder a agregar la Funcion
             switch ($tipo)
             {
                 case "teatro":
                         $unaFuncion = new FuncionTeatro($nomFuncion, $horaIni, $tiempo, $precio);
-                        $unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
-                        $cantFunciones++;
+                        $exito=$unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
                     break;
                 case "cine":
-                         echo "\n Ingrese el genero de la pelicula ";
+                         echo "\n Ingrese el genero de la pelicula: ";
                         $igenero = trim(fgets(STDIN));
-                        echo "\n Ingrese el pais de la pelicula";
+                        echo "\n Ingrese el pais de la pelicula: ";
                         $ipais = trim(fgets(STDIN));
                         $unaFuncion = new FuncionCine($nomFuncion, $horaIni, $tiempo, $precio, $igenero, $ipais);
-                        $unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
-                        $cantFunciones++;
+                        $exito=$unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
                     break;
                     case "musical":
-                        echo "\n Ingrese el nombre del director ";
+                        echo "\n Ingrese el nombre del director: ";
                         $idirector = trim(fgets(STDIN));
-                        echo "\n Ingrese la cantidad de personas en escena ";
+                        echo "\n Ingrese la cantidad de personas en escena: ";
                         $icantPersonas = trim(fgets(STDIN));
                         $unaFuncion = new FuncionMusical($nomFuncion, $horaIni, $tiempo, $precio, $idirector, $icantPersonas);
-                        $unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
-                        $cantFunciones++;
-                    break;
-
-
+                        $exito=$unTeatro->agregarFunciones($cantFunciones, $unaFuncion);
+                        break;
             }
+            if (!$exito) {
+                echo "\n****El horario de la funcion ingresada se solapa, no fue posible asignarla a la lista****\n";
+            }
+            else
+                {
+                    //Se agrega la funcion con exito
+                    $cantFunciones++;
+        }
         break;
 
-        case 7: //Modificar FuncionTp3
+        case 7: //Modificar Funcion
             if (count($unTeatro->getFunciones()) > 0)
             {
                 $bucle = true;
                 echo "\n Estas son las funciones disponibles, seleccione una a modificar[0-" . ($cantFunciones - 1) . "]\n";
-                //print_r($unTeatro->getFunciones());
+
                 echo $unTeatro->__toString();
 
                 $nroFuncion = trim(fgets(STDIN));
@@ -148,8 +156,11 @@ do {
                     echo "\n Aun no hay funciones programadas para modificar \n";
                 }
             break;
+        case 8:
+            echo "\nCosto total: {$unTeatro->darCosto()}\n";
+        break;
     }
-} while ($opcion != 8);
+} while ($opcion != 9);
 
 function seleccionarOpcion()
 {
@@ -162,16 +173,18 @@ function seleccionarOpcion()
         echo "\n ( 5 ) Ver funciones disponibles";
         echo "\n ( 6 ) Agregar nueva funcion";
         echo "\n ( 7 ) Modificar funcion";
-        echo "\n ( 8 ) Salir";
+        echo "\n ( 8 ) Calcular costo";
+
+        echo "\n ( 9 ) Salir";
         echo "\n        ";
         $opcion = trim(fgets(STDIN));
 
         /*>>> Además controlar que la opción elegida es válida. Puede que el usuario se equivoque al elegir una opción <<<*/
-        if ($opcion < 1 || $opcion > 8) {
+        if ($opcion < 1 || $opcion > 9) {
             echo "\n---------- Indique una opcion valida ----------\n";
         }
     } //Si la opcion es invalida muestra una advertencia y vuelve a mostrar el menu
-    while (!($opcion >= 1 && $opcion <= 8));
+    while (!($opcion >= 1 && $opcion <= 9));
 
     echo "--------------------------------------------------------------\n";
     return $opcion;

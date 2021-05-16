@@ -1,5 +1,5 @@
 <?php
-include "FuncionTPE3.php";
+require "FuncionTPE3.php";
 
 
 class FuncionCine extends FuncionTPE3
@@ -42,12 +42,12 @@ class FuncionCine extends FuncionTPE3
     {
         $cadena = parent::__toString();
         $cadena.= "Genero:{$this->getGenero()}
-                 \nPais:{$this->getPais()}";
+                 \nPais:{$this->getPais()}\n";
         return $cadena;
 
     }
     public function calcularCosto()
-    {
-        return parent::calcularCosto() * 1.12;
+    { //Teniendo en cuenta que el costo es lo que se le aplica al total solo se vera reflejado el interes no la suma de la entrada+interes (no *1.65)
+        return parent::calcularCosto() * 0.65;
     }
 }

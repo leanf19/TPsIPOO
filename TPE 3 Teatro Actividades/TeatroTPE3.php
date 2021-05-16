@@ -1,8 +1,8 @@
 <?php
 
+include "FuncionCine.php";
 include "FuncionTeatro.php";
 include "FuncionMusical.php";
-include "FuncionCine.php";
 
 class TeatroTPE3
 {
@@ -63,20 +63,18 @@ class TeatroTPE3
         $this->funciones = $func;
     }
 
-   /* public function agregarFunciones($tipo,$nom,$hora,$tiempo,$costo)
+
+    public function agregarFunciones($index, $unaFuncion)
     {
-        $auxFuncion = new FuncionTPE3($nom,$hora,$tiempo,$costo);
-        $this->funciones[$tipo][] = $auxFuncion;
-    }
-*/
-    public function agregarFunciones($unaFuncion,$index)
-    {
+        //devuelve false si no se pudo agregar la funcion dentro del arreglo de funciones
         $exito = false;
         $horaFuncion = $unaFuncion->getHoraInicio();
         $duracionFuncion = $unaFuncion->getDuracion();
+        //Se comprueba que no se solapen los horarios con otra funcion
         if ($this->comprobarHorario($index,$horaFuncion, $duracionFuncion)) {
             $tempFunciones = $this->getFunciones();
             $tempFunciones[] = $unaFuncion;
+            $this->setFunciones($tempFunciones);
             $exito = true;
         }
         return $exito;
@@ -93,7 +91,8 @@ class TeatroTPE3
 
             case 2:
                 //cambiar hora inicio
-                $duracion = $this->funciones[$indice]->getDuracion();
+                $aux=$this->funciones[$indice];
+                $duracion = $aux->getDuracion();
                 $existe = $this->comprobarHorario($indice,$valor,$duracion);
                 if($existe)
                 {
@@ -108,7 +107,8 @@ class TeatroTPE3
 
             case 3:
                 //cambiar duracion
-                $horaFuncion = $this->funciones[$indice]->getHoraInicio();
+                $aux=$this->funciones[$indice];
+                $horaFuncion = $aux->getHoraInicio();
                 $existe = $this->comprobarHorario($indice,$horaFuncion,$valor);
                 if($existe)
                 {
@@ -144,7 +144,7 @@ class TeatroTPE3
         $i = 0;
 
         //Mientras no se solape o se compruebe en todos los horarios la disponibilidad
-        while($disponible && $i < $this->cantFunciones-1)
+        while($disponible && $i < count($this->funciones))
         {
 
             //No realiza la comprobacion sobre la funcion que se desea modificar
@@ -152,14 +152,15 @@ class TeatroTPE3
             {
 
                 //Comprueba que la hora INICIO de la funcion del indice actual no este entre la hora de Inicio y Fin de la nueva funcion
-                $otroHorario = $this->aMinutos($this->funciones[$i]->getHoraInicio());
+                $aux= $this->funciones[$i];
+                $otroHorario = $this->aMinutos($aux->getHoraInicio());
                 if($auxInicio <= $otroHorario && $otroHorario <= $auxFin)
                 {
 
                     $disponible = false;
                 }
                 //Comprueba que la hora FIN de la funcion del indice actual no este entre la hora de Inicio y Fin de la nueva funcion
-                $otroHorario = $otroHorario + $this->funciones[$i]->getDuracion();
+                $otroHorario = $otroHorario + $aux->getDuracion();
 
                 if($auxInicio <= $otroHorario && $otroHorario <= $auxFin)
                 {
@@ -191,14 +192,14 @@ class TeatroTPE3
     //Recorre tod* el arreglo, concatena y devuelve al __toString
     public function concatenarFunciones()
     {
+        $i=0;
         $salida = "";
         foreach ($this->funciones as $funcion) {
             $salida .= "-----------------------------------------------\n";
-            $salida .= "Nombre: {$funcion->getNombre()}
-                        \nHorario:{$funcion->getHoraInicio()}
-                        \nDuracion: {$funcion->getDuracion()}
-                         \nPrecio:{$funcion->getPrecio()}\n";
+            $salida .= "Funcion $i:";
+            $salida .= $funcion->__toString();
             $salida .= "-----------------------------------------------\n";
+            $i++;
         }
         return $salida;
     }
@@ -206,6 +207,7 @@ class TeatroTPE3
     public function darCosto()
     {
         $costo = 0;
+        //se recorre el arreglo de funciones del teatro guardando y sumando el valor del costo total por el uso del mismo
         foreach ($this->getFunciones() as $funcion) {
             $costo += $funcion->calcularCosto();
         }

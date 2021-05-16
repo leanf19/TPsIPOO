@@ -1,5 +1,5 @@
 <?php
-include "FuncionTPE3.php";
+//include "FuncionTPE3.php";
 
 class FuncionTeatro extends FuncionTPE3
 {
@@ -17,8 +17,8 @@ class FuncionTeatro extends FuncionTPE3
         return parent::__toString();
     }
     public function calcularCosto()
-    {
-        return parent::calcularCosto() * 1.45;
+    { //Teniendo en cuenta que el costo es lo que se le aplica al total solo se vera reflejado el interes no la suma de la entrada+interes (no *1.45)
+        return parent::calcularCosto() * 0.45;
     }
 
 }
